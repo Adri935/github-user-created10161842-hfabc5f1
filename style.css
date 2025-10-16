@@ -1,0 +1,26 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+#github-created-at {
+  font-size: 1.25rem;
+  font-weight: 500;
+  min-height: 2rem;
+}
+
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.success {
+  color: #198754;
+}
