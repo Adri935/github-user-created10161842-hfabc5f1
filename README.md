@@ -7,6 +7,8 @@ This application fetches GitHub user account creation dates using the GitHub API
 - Fetches user creation date from GitHub API
 - Supports optional token authentication via URL parameter
 - Displays creation date in YYYY-MM-DD UTC format
+- Shows account age in years
+- Provides accessibility alerts via aria-live
 - Responsive Bootstrap-based UI
 - Proper error handling and user feedback
 
@@ -19,7 +21,7 @@ This application fetches GitHub user account creation dates using the GitHub API
 
 1. Enter a GitHub username in the form
 2. Click "Fetch Creation Date"
-3. View the account creation date in YYYY-MM-DD UTC format
+3. View the account creation date and age
 
 Optionally, provide a GitHub token via URL parameter: `?token=YOUR_TOKEN`
 
