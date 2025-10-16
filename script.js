@@ -111,6 +111,16 @@ function formatDate(dateString) {
   return date.toISOString().split('T')[0];
 }
 
+// Calculate account age in years
+function calculateAccountAge(createdAt) {
+  const createdDate = new Date(createdAt);
+  const now = new Date();
+  const diffMs = now - createdDate;
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+  const years = Math.floor(diffDays / 365);
+  return years;
+}
+
 // Fetch user creation date from GitHub API
 async function fetchUserCreationDate(username, token = null) {
   const url = `https://api.github.com/users/${username}`;
@@ -151,6 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('github-user-r8s2');
   const usernameInput = document.getElementById('github-username');
   const createdAtElement = document.getElementById('github-created-at');
+  const accountAgeElement = document.getElementById('github-account-age');
+  const statusElement = document.getElementById('github-status');
   
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -159,6 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!username) {
       createdAtElement.textContent = 'Please enter a username';
       createdAtElement.className = 'error';
+      statusElement.textContent = 'Please enter a username';
       return;
     }
     
@@ -166,17 +179,24 @@ document.addEventListener('DOMContentLoaded', () => {
     form.classList.add('loading');
     createdAtElement.textContent = 'Loading...';
     createdAtElement.className = '';
+    accountAgeElement.textContent = '';
+    statusElement.textContent = `Looking up GitHub user ${username}`;
     
     try {
       const token = getTokenFromUrl();
       const createdAt = await fetchUserCreationDate(username, token);
       const formattedDate = formatDate(createdAt);
+      const accountAge = calculateAccountAge(createdAt);
       
       createdAtElement.textContent = formattedDate;
       createdAtElement.className = 'success';
+      accountAgeElement.textContent = `${accountAge} years`;
+      statusElement.textContent = `Successfully fetched creation date for ${username}`;
     } catch (error) {
       createdAtElement.textContent = error.message;
       createdAtElement.className = 'error';
+      accountAgeElement.textContent = '';
+      statusElement.textContent = `Failed to fetch creation date for ${username}: ${error.message}`;
     } finally {
       form.classList.remove('loading');
     }
